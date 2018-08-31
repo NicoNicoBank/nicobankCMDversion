@@ -45,6 +45,12 @@
     <ClInclude Include="..\class\User.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="..\class\md5.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\database\CppSQLite3.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -78,6 +84,15 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="..\class\User.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\class\md5.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\class\changeType.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\database\CppSQLite3.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

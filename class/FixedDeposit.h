@@ -8,7 +8,11 @@ public:
 	~FixedDeposit();
 	void draw();
 	void save();
-private:
+
+	int getTimeCounter();
+	void setTimeCounter(int _timeCounter);
 	static int timeCounter;
+private:
+	
 };
 

@@ -12,18 +12,58 @@ public:
 	/*
 	Date类初始化不能小于0，会变成错误数值
 	*/
-	User(string account, string userName, string password, string address, string IDNumber, Date openDate, bool isLost, Date lostDate, int id=-1);
+	User(string account, string userName, string password, string address, string IDNumber, Date openDate, bool isLost, Date lostDate, int id = -1);
 	/*
-	根据当前id值读取所有该id值下的user表中的数据,query是所查询的字段名,默认为id
-	仅支持account, IDNumber 和 id
+	根据当前id值读取所有该id值下的user表中的数据
 	*/
-	bool read(string * errorMessage, string query = "id");
+	bool readData(string query);
 	/*
 	将当前类中数据写入数据库, id存在则为更新，id为-1则表示更新
 	*/
-	bool save(string * errorMessage);
+	bool save();
+	/*
+	检验当前账户正确性
+	*/
+	bool verify(string account, string pwd);
+	/*
+	检验是否存在该账户
+	*/
+	bool isExist(string account);
+	/*
+	初始化两个日期信息
+	*/
+	void initDate();
+	/*
+	输出当前账户存取款信息
+	*/
+	void print(string account);
+	int getId();
+	void setId(int _id);
+
 	string getAccount();
-	bool verifyAccount();
+	void setAccount(string _account);
+
+	string getUserName();
+	void setUserName(string _userName);
+
+	string getPassword();
+	void setPassword(string _password);
+
+	string getAddress();
+	void setAddress(string _address);
+
+	string getIDNumber();
+	void setIDNumber(string _IDNumber);
+
+	Date getOpenDate();
+	void setOpenDate(Date _openDate);
+
+	Date getLostDate();
+	void setLostDate(Date _lostDate);
+
+	bool getIsLost();
+	void setIsLost(bool _isLost);
+
 private:
 	int id;  //唯一标识
 	string account; // 账号

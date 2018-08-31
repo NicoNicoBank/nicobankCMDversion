@@ -1,41 +1,13 @@
-#include "Func.h"
-#include <direct.h>
 #include "User.h"
 #include "sqlite3.h"
 #include "Func.h"
 #include <iostream>
 #include <vector>
-#include <ctime>
-#include <CppSQLite3.h>
-const int MAX_LENGTH = 1000;
-const char CCH[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-Func::Func()
-{
-}
+using namespace std;
 
 
-Func::~Func()
-{
-}
-
-string Func::getPwd()
-{
-	char buff[1000];
-	_getcwd(buff, 1000);
-	string pwd = buff;
-	return pwd;
-}
-
-string Func::getDataBaseLocation()
-{
-	string pwd = getPwd();
-	pwd += "\\..\\database\\bank.db";
-	return pwd;
-}
-
-
-//UTF-8×ªUnicode 
-wstring Func::Utf82Unicode(const std::string& utf8string)
+//UTF-8è½¬Unicode 
+std::wstring Utf82Unicode(const std::string& utf8string)
 {
 	int widesize = ::MultiByteToWideChar(CP_UTF8, 0, utf8string.c_str(), -1, NULL, 0);
 	if (widesize == ERROR_NO_UNICODE_TRANSLATION)
@@ -55,8 +27,8 @@ wstring Func::Utf82Unicode(const std::string& utf8string)
 	return std::wstring(&resultstring[0]);
 }
 
-//unicode ×ªÎª ascii 
-string Func::WideByte2Acsi(wstring& wstrcode)
+//unicode è½¬ä¸º ascii 
+string WideByte2Acsi(wstring& wstrcode)
 {
 	int asciisize = ::WideCharToMultiByte(CP_OEMCP, 0, wstrcode.c_str(), -1, NULL, 0, NULL, NULL);
 	if (asciisize == ERROR_NO_UNICODE_TRANSLATION)
@@ -76,20 +48,20 @@ string Func::WideByte2Acsi(wstring& wstrcode)
 	return std::string(&resultstring[0]);
 }
 
-//utf-8 ×ª ascii 
-string Func::UTF_82ASCII(string& strUtf8Code)
+//utf-8 è½¬ ascii 
+string UTF_82ASCII(string& strUtf8Code)
 {
 	string strRet("");
-	//ÏÈ°Ñ utf8 ×ªÎª unicode 
+	//å…ˆæŠŠ utf8 è½¬ä¸º unicode 
 	wstring wstr = Utf82Unicode(strUtf8Code);
-	//×îºó°Ñ unicode ×ªÎª ascii 
+	//æœ€åæŠŠ unicode è½¬ä¸º ascii 
 	strRet = WideByte2Acsi(wstr);
 	return strRet;
 }
 
 /////////////////////////////////////////////////////////////////////// 
-//ascii ×ª Unicode 
-wstring Func::Acsi2WideByte(string& strascii)
+//ascii è½¬ Unicode 
+wstring Acsi2WideByte(string& strascii)
 {
 	int widesize = MultiByteToWideChar(CP_ACP, 0, (char*)strascii.c_str(), -1, NULL, 0);
 	if (widesize == ERROR_NO_UNICODE_TRANSLATION)
@@ -109,8 +81,8 @@ wstring Func::Acsi2WideByte(string& strascii)
 	return std::wstring(&resultstring[0]);
 }
 
-//Unicode ×ª Utf8 
-string Func::Unicode2Utf8(const std::wstring& widestring)
+//Unicode è½¬ Utf8 
+std::string Unicode2Utf8(const std::wstring& widestring)
 {
 	int utf8size = ::WideCharToMultiByte(CP_UTF8, 0, widestring.c_str(), -1, NULL, 0, NULL, NULL);
 	if (utf8size == 0)
@@ -125,51 +97,13 @@ string Func::Unicode2Utf8(const std::wstring& widestring)
 	}
 	return std::string(&resultstring[0]);
 }
-
-
-string Func::getRandomstring(int length)
-{
-	srand((unsigned)time(NULL));
-	char ch[MAX_LENGTH];
-	for (int i = 0; i < length; ++i)
-	{
-		//int x = rand() % (sizeof(CCH) - 1); //Õâ¸ö·½·¨²»ºÃ, ÒòÎªĞí¶àËæ»úÊı·¢ÉúÆ÷µÄµÍÎ»±ÈÌØ²¢²»Ëæ»ú,
-
-//RAND MAX ÔÚANSI Àï#define ÔÚ<stdlib.h>
-
-//RAND MAX ÊÇ¸ö³£Êı, Ëü¸æËßÄãC ¿âº¯Êırand() µÄ¹Ì¶¨·¶Î§¡£
-
-//²»¿ÉÒÔÉèRAND MAX ÎªÆäËüµÄÖµ, Ò²Ã»ÓĞ°ì·¨ÒªÇórand() ·µ»ØÆäËü·¶Î§µÄÖµ¡£
-		int x = rand() % 62;
-
-		ch[i] = CCH[x];
-	}
-	ch[length] = '\0';
-	string temp = ch;
-	return string(temp);
-}
-string Func::sqlExce(string sql)
-{
-	Func func;
-	CppSQLite3DB db;
-	//try {
-	db.open(func.getDataBaseLocation().c_str());
-	CppSQLite3Query q = db.execQuery(sql.c_str());
-	q.finalize();
-	db.close();
-	/*}
-	catch (CppSQLite3Exception & e) {
-		cout << e.errorMessage() << endl;
-	}*/
-	return string();
-}
-//ascii ×ª Utf8 
-string Func::ASCII2UTF_8(string& strAsciiCode)
+//ascii è½¬ Utf8 
+string ASCII2UTF_8(string& strAsciiCode)
 {
 	string strRet("");
-	//ÏÈ°Ñ ascii ×ªÎª unicode 
+	//å…ˆæŠŠ ascii è½¬ä¸º unicode 
 	wstring wstr = Acsi2WideByte(strAsciiCode);
-	//×îºó°Ñ unicode ×ªÎª utf8 
+	//æœ€åæŠŠ unicode è½¬ä¸º utf8 
 	strRet = Unicode2Utf8(wstr);
 	return strRet;
 }

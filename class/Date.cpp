@@ -15,8 +15,8 @@ istream& operator>>(istream& _cin, Date& date)
 
 Date::Date(int year, int month, int day)
 {
-	if (year > 0 && (month > 0 && month < 13) &&
-		(day > 0 && day <= GetDaysInMonth(year, month)))
+	if (year >= 0 && (month >= 0 && month < 13) &&
+		(day >= 0 && day <= GetDaysInMonth(year, month)))
 	{
 		_year = year;
 		_month = month;

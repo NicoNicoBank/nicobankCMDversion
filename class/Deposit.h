@@ -8,11 +8,27 @@ class Deposit
 {
 public:
 	Deposit();
-	Deposit(int userid, string type, int principle, Date date);
+	Deposit(int userid, int type, int principle, Date date);
 	virtual ~Deposit();
+
+	bool save();
+	bool isExist(int id);
+
+	int getID();
+	void setID(int id);
+	int getUserid();
+	void setUserid(int userid);
+	int getType();
+	void setType(int type);
+	int getPrinciple();
+	void setPrinciple(int principle);
+	Date getDate();
+	void setDate(Date date);
+
 protected:
+	int id;
 	int userid;
-	string type;
+	int type;
 	int principle;
 	Date date;	
 };
