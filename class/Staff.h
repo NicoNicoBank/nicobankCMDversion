@@ -14,7 +14,7 @@ public:
 	验证正确返回true, 验证错误返回false,并且errorMessge为""
 	数据库错误返回false, erroMessage;
 	*/
-	bool verify(string * errorMessage);
+	bool verify();
 
 	string getName();
 	void setID(int id);

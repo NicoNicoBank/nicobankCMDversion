@@ -250,18 +250,16 @@ void User::print(string account)
 	Func func;
 	CppSQLite3DB db;
 	db.open(func.getDataBaseLocation().c_str());
-	string sql_temp = "SELECT * From user where account = '"+account+"';"; // id = " + to_string(id);
+	string sql_temp = "SELECT * From Deposit where userAccount = '" + account + "';";
 	CppSQLite3Query q = db.execQuery(sql_temp.c_str());
-	int userID = q.getIntField(0);
-	sql_temp = "SELECT * From Deposit where userid = '" + to_string(userID) + "';";
-	q = db.execQuery(sql_temp.c_str());
 	int counter = 1;
-	cout << "序号\t存款种类\t本金\t存入时间" << endl;
+	cout << "工单号\t存款种类\t本金\t存入时间" << endl;
 	while (!q.eof()) {
-		int type = q.getIntField(3);
-		cout << counter <<"\t" << type << "月\t";
-		cout << q.getIntField(4) << "\t";
-		cout << q.getIntField(5) << "." << q.getIntField(6) << q.getIntField(7) << endl;
+		int type = q.getIntField(2);
+		cout << q.getIntField(0) <<"\t" << type << "月\t\t";
+		cout << q.getIntField(3) << "\t";
+		cout << q.getIntField(4) << "." << q.getIntField(5) << "." <<q.getIntField(6) << endl;
+		q.nextRow();
 	}
 }
 

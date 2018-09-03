@@ -9,10 +9,14 @@
 #include <CppSQLite3.h>
 const int MAX_LENGTH = 1000;
 const char CCH[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+
+
+
+
 Func::Func()
 {
 }
-
 
 Func::~Func()
 {
@@ -32,7 +36,6 @@ string Func::getDataBaseLocation()
 	pwd += "\\..\\database\\bank.db";
 	return pwd;
 }
-
 
 //UTF-8תUnicode 
 wstring Func::Utf82Unicode(const std::string& utf8string)
@@ -148,6 +151,7 @@ string Func::getRandomstring(int length)
 	string temp = ch;
 	return string(temp);
 }
+
 string Func::sqlExce(string sql)
 {
 	Func func;
@@ -163,6 +167,7 @@ string Func::sqlExce(string sql)
 	}*/
 	return string();
 }
+
 //ascii ת Utf8 
 string Func::ASCII2UTF_8(string& strAsciiCode)
 {

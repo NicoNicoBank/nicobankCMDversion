@@ -118,6 +118,15 @@ Date Date::operator--(int)
 	return temp;
 }
 
+void Date::addMonth(int month)
+{
+	_month += month;
+	if (_month > 12) {
+		_year += (_month-1) / 12;
+	}
+	_month = (_month-1) % 12 + 1;
+}
+
 bool  Date::operator>(const Date& date)
 {
 	if (_year > date._year || (_year == date._year && _month > date._month) || (_year == date._year && _month == date._month && _day > date._day))
