@@ -199,5 +199,21 @@ int Date::get(int type)
 	return 0;
 }
 
+int Date::get(int type) const
+{
+	switch (type)
+	{
+	case 0:
+		return _year;
+	case 1:
+		return _month;
+	case 2:
+		return _day;
+	default:
+		return NULL;
+	}
+	return 0;
+}
+
 
 

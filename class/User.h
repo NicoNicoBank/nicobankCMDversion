@@ -3,6 +3,7 @@
 #include <cstring>
 #include "Date.h"
 #include <windows.h>
+#include <vector>
 using namespace std;
 class User
 {
@@ -10,7 +11,7 @@ public:
 	User();
 	~User();
 	/*
-	Date类初始化不能小于0，会变成错误数值
+	初始化user
 	*/
 	User(string account, string userName, string password, string address, string IDNumber, Date openDate, bool isLost, Date lostDate, int id = -1);
 	/*
@@ -34,9 +35,28 @@ public:
 	*/
 	void initDate();
 	/*
-	输出当前账户存取款信息
+	输出当前账户存款信息
 	*/
 	void print(string account);
+	/*
+	账户挂失函数，对指定账户进行挂失
+	*/
+	void setLost(string account, const Date & now);
+	/*
+	取消挂失函数，对指定账户设置为未挂失状态
+	*/
+	/*
+	获取当前存款信息
+	*/
+	bool userDepositDetail(string account, vector <int> & id, vector <int> & type, vector <double> & principal, vector <Date> & date);
+	/*
+	获取取款清单
+	*/
+	bool userWithDrawDetail(string account, vector <Date> & date, vector <double>& money);
+	/*
+	取消挂失
+	*/
+	void cancelLost(string account);
 	int getId();
 	void setId(int _id);
 

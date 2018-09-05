@@ -16,6 +16,7 @@ double profitRate[] = {
 	0, 0, 0,
 	0, 0, 0.0275,
 };
+
 Deposit::Deposit()
 {
 	this->id = 0;
@@ -26,13 +27,23 @@ Deposit::Deposit()
 	this->takeTimes = 0;
 }
 
-Deposit::Deposit(string userAccount, int type, int principal, Date date)
+Deposit::Deposit(string userAccount, int type, double principal, Date date)
 {
 	this->id = 0;
 	this->userAccount = userAccount;
 	this->type = type;
 	this->principal = principal;
 	this->date = date;
+	this->takeTimes = 0;
+}
+
+Deposit::Deposit(int id)
+{
+	this->id = 0;
+	this->userAccount = "";
+	this->type = 0;
+	this->principal = 0;
+	this->date = Date(0,0,0);
 	this->takeTimes = 0;
 }
 
@@ -77,7 +88,7 @@ bool Deposit::readData()
 	CppSQLite3Query q = db.execQuery(sql.c_str());
 	this->userAccount = q.getStringField(1);
 	this->type = q.getIntField(2);
-	this->principal = q.getIntField(3);
+	this->principal = q.getFloatField(3);
 	int year, month, day;
 	year = q.getIntField(4);
 	month = q.getIntField(5);
@@ -110,11 +121,29 @@ bool Deposit::checkCanBeTake()
 	else return true;
 }
 
-int Deposit::getRecentEndDepoist(Date now)
+int Deposit::drawMoney(string account, int money,const Date & now)
+{
+	Func func;
+	this->readData();
+	if (money > principal || money < 0) {
+		return 2;
+	}
+	if (checkCanBeTake()) {
+		string sql = "insert into WithDraw (userAccount, year, month, day, money) values ("+ account + to_string(now.get(0)) + "," + to_string(now.get(1)) + "," + to_string(now.get(2)) + "," + to_string(money) + ");";
+		func.sqlExce(sql);
+		this->principal -= money;
+		this->save();
+		return 0;
+	}
+	else
+		return 1;
+}
+
+double Deposit::getRecentEndDepoist(Date now)
 {
 	Func func;
 	string sql = "";
-	int sum = 0;
+	double sum = 0;
 	CppSQLite3DB db;
 	db.open(func.getDataBaseLocation().c_str());
 	//先获取全部定期即将到期的，三天内的
@@ -123,7 +152,7 @@ int Deposit::getRecentEndDepoist(Date now)
 		sql = "select * from Deposit where takeYear = " + to_string(now.get(0)) + " and takeMonth = " + to_string(now.get(1)) + " and takeDay = " + to_string(now.get(2)) + " and type != 0;";
 		CppSQLite3Query q = db.execQuery(sql.c_str());
 		while (!q.eof()) {
-			sum += q.getIntField(3);
+			sum += q.getFloatField(3);
 			q.nextRow();
 		}
 		q.finalize();
@@ -132,7 +161,7 @@ int Deposit::getRecentEndDepoist(Date now)
 	sql = "select * from Deposit where type = 0;";
 	CppSQLite3Query q = db.execQuery(sql.c_str());
 	while (!q.eof()) {
-		sum += q.getIntField(3);
+		sum += q.getFloatField(3);
 		q.nextRow();
 	}
 	q.finalize();
@@ -163,11 +192,16 @@ int Deposit::settlement(Date now)
 	return 0;
 }
 
-int Deposit::countProfit()
+double Deposit::countProfit()
 {
 	double profit_t = profitRate[this->type];
 	profit_t = (profit_t / 360) * 30 * this->type;
 	return profit_t * this->principal;
+}
+
+void Deposit::setProfit(int type, double profit)
+{
+	profitRate[type] = profit;
 }
 
 int Deposit::getID()
@@ -196,11 +230,11 @@ void Deposit::setType(int _type) {
 	type = _type;
 }
 
-int Deposit::getPrincipal() {
+double Deposit::getPrincipal() {
 	return principal;
 }
 
-void Deposit::setPrincipal(int _principle) {
+void Deposit::setPrincipal(double _principle) {
 	principal = _principle;
 }
 

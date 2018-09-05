@@ -81,6 +81,7 @@ bool Staff::save()
 	db.open(func.getDataBaseLocation().c_str());
 	db.execDML(sql.c_str());
 	db.close();
+	return true;
 }
 
 bool Staff::verify()
@@ -123,5 +124,15 @@ string Staff::getJobNumber() {
 
 void Staff::setJobNumber(string _jobNumber) {
 	jobNumber = _jobNumber;
+}
+
+string Staff::getPwd()
+{
+	return string(this->password);
+}
+
+void Staff::setPwd(string pwd)
+{
+	this->password = pwd;
 }
 

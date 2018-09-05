@@ -144,7 +144,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>D:\c++ study\nicobankCMDversion\class;D:\c++ study\nicobankCMDversion\database;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\c++ study\nicobankCMDversion\jsoncpp-src-0.5.0\src\lib_json;D:\c++ study\nicobankCMDversion\jsoncpp-src-0.5.0\include\json;D:\c++ study\nicobankCMDversion\class;D:\c++ study\nicobankCMDversion\database;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -159,6 +159,7 @@
     <ClInclude Include="..\class\Deposit.h" />
     <ClInclude Include="..\class\FixedDeposit.h" />
     <ClInclude Include="..\class\Func.h" />
+    <ClInclude Include="..\class\Logic.h" />
     <ClInclude Include="..\class\md5.h" />
     <ClInclude Include="..\class\Staff.h" />
     <ClInclude Include="..\class\User.h" />
@@ -174,6 +175,7 @@
     <ClCompile Include="..\class\Deposit.cpp" />
     <ClCompile Include="..\class\FixedDeposit.cpp" />
     <ClCompile Include="..\class\Func.cpp" />
+    <ClCompile Include="..\class\Logic.cpp" />
     <ClCompile Include="..\class\md5.cpp" />
     <ClCompile Include="..\class\Staff.cpp" />
     <ClCompile Include="..\class\User.cpp" />

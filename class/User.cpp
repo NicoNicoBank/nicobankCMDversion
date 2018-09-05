@@ -263,6 +263,52 @@ void User::print(string account)
 	}
 }
 
+void User::setLost(string account,const Date & now)
+{
+	Func func;
+	string sql = "update user set isLost = 1, lostDate_year = " + to_string(now.get(0)) +", lostDate_month = " + to_string(now.get(1)) + ", lostDate_day = " + to_string(now.get(2)) + " where account = '" + account + "';";
+	func.sqlExce(sql);
+}
+
+bool User::userDepositDetail(string account, vector<int>& id, vector<int>& type, vector<double>& principal, vector<Date>& date)
+{
+	Func func;
+	CppSQLite3DB db;
+	db.open(func.getDataBaseLocation().c_str());
+	string sql_temp = "SELECT * From Deposit where userAccount = '" + account + "';";
+	CppSQLite3Query q = db.execQuery(sql_temp.c_str());
+	while (!q.eof()) {
+		type.push_back(q.getIntField(2));
+		id.push_back(q.getIntField(0));
+		principal.push_back(q.getIntField(3));
+		date.push_back(Date(q.getIntField(4), q.getIntField(5), q.getIntField(6)));
+		q.nextRow();
+	}
+	return true;
+}
+
+bool User::userWithDrawDetail(string account, vector<Date>& date, vector<double>& money)
+{
+	Func func;
+	CppSQLite3DB db;
+	db.open(func.getDataBaseLocation().c_str());
+	string sql_temp = "SELECT * From WithDraw where userAccount = '" + account + "';";
+	CppSQLite3Query q = db.execQuery(sql_temp.c_str());
+	while (!q.eof()) {
+		date.push_back(Date(q.getIntField(2), q.getIntField(3), q.getIntField(4)));
+		money.push_back(q.getFloatField(5));
+		q.nextRow();
+	}
+	return true;
+}
+
+void User::cancelLost(string account)
+{
+	Func func;
+	string sql = "update user set isLost = 0 where account = '" + account + "';";
+	func.sqlExce(sql);
+}
+
 int User::getId()
 {
 	return 0;
@@ -332,6 +378,7 @@ void User::setLostDate(Date _lostDate) {
 bool User::getIsLost() {
 	return isLost;
 }
+
 void User::setIsLost(bool _isLost) {
 	isLost = _isLost;
 }

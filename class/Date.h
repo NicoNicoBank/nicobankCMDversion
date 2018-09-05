@@ -28,6 +28,7 @@ public:
 	type:0-year, 1-month, 2-day
 	*/
 	int get(int type);
+	int get(int type) const;
 private:
 	bool IsLeapYear(int year)
 	{
